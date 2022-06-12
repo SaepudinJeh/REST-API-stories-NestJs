@@ -1,10 +1,13 @@
+import { config } from 'dotenv';
+config();
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
-import * as csurf from 'csurf';
+// import * as csurf from 'csurf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,7 +16,7 @@ async function bootstrap() {
 
   app.use(compression());
   app.use(helmet.default());
-  app.use(csurf());
+  // app.use(csurf());
   app.enableCors({ origin: '*' });
 
   const configSwagger = new DocumentBuilder()
