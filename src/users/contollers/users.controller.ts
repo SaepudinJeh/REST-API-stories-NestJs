@@ -1,6 +1,7 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
-import { ApiBody, ApiConsumes, ApiOperation, ApiParam } from '@nestjs/swagger';
+import { ApiBody, ApiOperation } from '@nestjs/swagger';
 import * as bcrypt from 'bcrypt';
+import { LoginUserDto } from '../dto/user.login';
 
 import { RegisterUserDto } from '../dto/user.register';
 import { UsersService } from '../services/users.service';
@@ -44,6 +45,45 @@ export class UserController {
       });
     } catch (error) {
       return response(error);
+    }
+  }
+
+  @Post('login')
+  @ApiOperation({ summary: 'Login User' })
+  @ApiBody({
+    description: 'This body payload login User',
+    type: LoginUserDto,
+  })
+  async loginUser(@Body() userLoginDto: LoginUserDto, @Res() response) {
+    try {
+      const { email, password } = userLoginDto;
+
+      const checkUserExist = await this.userService.findUserByEmail(email);
+
+      const comparePassword = await bcrypt.compare(
+        password,
+        checkUserExist.password,
+      );
+
+      if (!checkUserExist) {
+        return response.status(400).json({
+          message: 'Unregistered Email!',
+          statusCode: 400,
+        });
+      }
+
+      if (!comparePassword) {
+        return response.status(400).json({
+          message: 'Invalid Password',
+          statusCode: 400,
+        });
+      }
+
+      return response.json({
+        message: 'Wkwkwkwkw',
+      });
+    } catch (error) {
+      return response.json(error);
     }
   }
 }
