@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
 import { DatabasesModule } from './databases/databases.module';
+import { StoriesModule } from './stories/stories.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, DatabasesModule],
+  imports: [UsersModule, DatabasesModule, StoriesModule],
   controllers: [],
   providers: [],
 })
