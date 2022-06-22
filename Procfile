@@ -1,1 +1,1 @@
-web: rm -rf node_modules && npm run start:prod
+web: npm run start:prod
