@@ -17,7 +17,11 @@ async function bootstrap() {
   app.use(compression());
   app.use(helmet.default());
   // app.use(csurf());
-  app.enableCors({ origin: '*' });
+  app.enableCors({
+    origin: '*',
+    allowedHeaders: '*',
+    methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS'
+  });
 
   const configSwagger = new DocumentBuilder()
     .addServer('http://localhost:3000')
