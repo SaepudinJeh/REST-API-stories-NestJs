@@ -3,26 +3,26 @@ import { ApiBody, ApiOperation } from '@nestjs/swagger';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
-import { LoginUserDto } from '../dto/user.login';
-import { UsersService } from '../services/users.service';
+import { LoginDto } from '../dto/auth.login';
+import { AuthService } from '../services/auth.service';
 
-@Controller('v1/login')
-export class UserLoginController {
+@Controller('v1/auth')
+export class AuthLoginController {
   constructor(
-    private userService: UsersService,
+    private authService: AuthService,
     private jwtService: JwtService,
   ) {}
 
-  @Post()
+  @Post('/login')
   @ApiOperation({ summary: 'Login User' })
   @ApiBody({
     description: 'This body payload login User',
-    type: LoginUserDto,
+    type: LoginDto,
   })
-  async loginUser(@Body() userLoginDto: LoginUserDto, @Res() response) {
+  async loginUser(@Body() userLoginDto: LoginDto, @Res() response) {
     const { email, password } = userLoginDto;
 
-    const checkUserExist = await this.userService.findUserByEmail(email);
+    const checkUserExist = await this.authService.findUserByEmail(email);
 
     const comparePassword = await bcrypt.compare(
       password,

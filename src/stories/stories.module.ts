@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from 'src/auth/users.module';
 import { StoriesController } from './controllers/create.stories.controller';
 import { StoriesService } from './services/stories.service';
 
