@@ -32,10 +32,7 @@ async function bootstrap() {
     )
     .setVersion('0.5.0')
     .addTag('stories')
-    .addBearerAuth({
-      bearerFormat: 'JWT',
-      type: 'http',
-    })
+    .addBearerAuth()
     .build();
 
   const documentSwagger = SwaggerModule.createDocument(app, configSwagger);

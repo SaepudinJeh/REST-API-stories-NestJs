@@ -44,6 +44,7 @@ export class AuthLoginController {
     }
 
     return response.status(200).json({
+      statusCode:200,
       access_token: this.jwtService.sign({
         email: checkUserExist.email,
       }),

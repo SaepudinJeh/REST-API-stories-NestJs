@@ -1,6 +1,6 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/middlewares/jwtAuthGuard';
+import { JwtAuthGuard } from 'src/utils/guards/jwt.guard';
 import { StoriesService } from '../services/stories.service';
 
 @Controller('v1/stories')
@@ -9,9 +9,10 @@ export class StoriesController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get Stories' })
-  async getStories() {
+  async getStories(@Request() req) {
+    console.log(req.user)
     return this.storiesService.createStories();
   }
 }
