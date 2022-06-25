@@ -19,7 +19,7 @@ export class AuthLoginController {
     description: 'This body payload login User',
     type: LoginDto,
   })
-  async loginUser(@Body() userLoginDto: LoginDto, @Res() response) {
+  async loginUser(@Body() userLoginDto: LoginDto, @Res() response: any) {
     const { email, password } = userLoginDto;
 
     const checkUserExist = await this.authService.findUserByEmail(email);
@@ -46,7 +46,9 @@ export class AuthLoginController {
     return response.status(200).json({
       statusCode:200,
       access_token: this.jwtService.sign({
+        id: checkUserExist._id,
         email: checkUserExist.email,
+        role: checkUserExist.role
       }),
     });
   }

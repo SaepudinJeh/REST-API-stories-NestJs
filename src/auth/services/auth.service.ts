@@ -16,7 +16,7 @@ export class AuthService {
     return await registerUser.save();
   }
 
-  async loginUser(loginDto: LoginDto): Promise<User> {
+  async loginUser(loginDto: LoginDto): Promise<any> {
     return this.userModel.findOne({ ...loginDto });
   }
 
@@ -24,7 +24,7 @@ export class AuthService {
     return await this.userModel.findById(id);
   }
 
-  async findUserByEmail(email: string): Promise<User> {
+  async findUserByEmail(email: string): Promise<any> {
     return await this.userModel.findOne({ email });
   }
 }

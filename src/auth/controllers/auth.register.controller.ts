@@ -15,31 +15,27 @@ export class AuthRegisterController {
     description: 'This body payload register User',
     type: RegisterDto,
   })
-  async registerUser(@Body() registerDto: RegisterDto, @Res() response) {
-    const checkUserExist = await this.authService.findUserByEmail(
-      registerDto.email,
-    );
-
-    if (checkUserExist) {
-      return response.status(400).json({
-        message: 'Email Already Exist!',
-        statusCode: 400,
+  async registerUser(@Body() registerDto: RegisterDto, @Res() response: any) {
+    try {
+      const hashPassword = await bcrypt.hash(
+        registerDto.password,
+        parseInt(process.env.SALT_HASH),
+      );
+  
+      await this.authService.registerUser({
+        ...registerDto,
+        password: hashPassword,
       });
+  
+      return response.json({
+        message: 'Register Succesfully',
+        statusCode: 201,
+      });
+    } catch (err) {
+      return response.status(400).json({
+        statusCode: 400,
+        message: `${err.keyValue.email || err.keyValue.username} already exist!`
+      })
     }
-
-    const hashPassword = await bcrypt.hash(
-      registerDto.password,
-      parseInt(process.env.SALT_HASH),
-    );
-
-    await this.authService.registerUser({
-      ...registerDto,
-      password: hashPassword,
-    });
-
-    return response.json({
-      message: 'Register Succesfully',
-      statusCode: 201,
-    });
   }
 }
