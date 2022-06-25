@@ -1,0 +1,26 @@
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import * as mongoose from "mongoose"
+import { User } from "src/auth/schemas/user.schema";
+
+export type StoryDocument = Story & mongoose.Document;
+
+@Schema({ timestamps: true })
+export class Story {
+    @Prop({ 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    })
+    author: User;
+
+    @Prop({ required: true })
+    title: string;
+
+    @Prop({ required: true, default: '' })
+    desc: string;
+
+    @Prop({ required: false, default: '' })
+    image: string;
+}
+
+export const StorySchema = SchemaFactory.createForClass(Story);

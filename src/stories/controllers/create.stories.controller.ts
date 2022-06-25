@@ -1,7 +1,9 @@
-import { Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/utils/guards/jwt.guard';
 import { StoriesService } from '../services/stories.service';
+import * as mongoose from 'mongoose';
+import { CreateStoryDto } from '../dto/createStory.dto';
 
 @Controller('v1/stories')
 export class StoriesController {
@@ -11,8 +13,11 @@ export class StoriesController {
   @Post()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get Stories' })
-  async getStories(@Request() req: any) {
-    console.log(req.user)
-    return this.storiesService.createStories();
+  async getStories(@Body() storyDto: CreateStoryDto , @Request() req: any) {
+    console.log(req.user.id)
+    return this.storiesService.createStories({
+      ...storyDto,
+      author: new mongoose.Types.ObjectId(req?.user?.id)
+    });
   }
 }

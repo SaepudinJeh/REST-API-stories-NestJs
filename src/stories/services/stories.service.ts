@@ -1,8 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateStoryDto } from '../dto/createStory.dto';
+import { StoryDto } from '../dto/story.dto';
+import { Story, StoryDocument } from '../models/stories.models';
 
 @Injectable()
 export class StoriesService {
-  async createStories(): Promise<any> {
-    return 'Test';
+  constructor(@InjectModel(Story.name) private storyModel: Model<StoryDocument>) {}
+
+  async createStories(storyDto: StoryDto): Promise<any> {
+    
+    const createStory = new this.storyModel(storyDto);
+
+    return await createStory.save();
   }
 }
