@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateStoryDto } from '../dto/createStory.dto';
 import { StoryDto } from '../dto/story.dto';
 import { Story, StoryDocument } from '../models/stories.models';
 
@@ -14,5 +13,9 @@ export class StoriesService {
     const createStory = new this.storyModel(storyDto);
 
     return await createStory.save();
+  }
+
+  async getStories(query: string): Promise<any[]> {
+    return this.storyModel.find({ authorId: query });
   }
 }

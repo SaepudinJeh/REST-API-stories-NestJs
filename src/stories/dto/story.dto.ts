@@ -8,7 +8,7 @@ export class StoryDto extends CreateStoryDto {
         super()
     }
 
-    @IsNotEmpty({ message: 'Author cannot be empty' })
+    @IsNotEmpty({ message: 'AuthorId cannot be empty' })
     @ApiProperty({ type: mongoose.Types.ObjectId })
-    author: mongoose.Types.ObjectId;
+    authorId: mongoose.Types.ObjectId;
 }

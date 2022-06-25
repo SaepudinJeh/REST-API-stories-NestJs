@@ -8,4 +8,7 @@ export class CreateStoryDto {
 
     @ApiProperty({ type: String })
     desc: string;
+
+    @ApiProperty({ type: String, required: false })
+    image: string;
 }

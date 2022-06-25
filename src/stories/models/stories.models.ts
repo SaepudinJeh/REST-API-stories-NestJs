@@ -11,7 +11,7 @@ export class Story {
         ref: 'User',
         required: true
     })
-    author: User;
+    authorId: User;
 
     @Prop({ required: true })
     title: string;
