@@ -14,6 +14,7 @@ export class StoriesController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get Stories' })
   async getStories(@Body() storyDto: CreateStoryDto , @Request() req: any) {
+
     return this.storiesService.createStories({
       ...storyDto,
       authorId: new mongoose.Types.ObjectId(req?.user?.id)

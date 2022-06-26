@@ -9,6 +9,9 @@ export class CreateStoryDto {
     @ApiProperty({ type: String })
     desc: string;
 
-    @ApiProperty({ type: String, required: false })
-    image: string;
+    @ApiProperty({ type: [], required: false })
+    image: [];
+
+    @ApiProperty({ type: Date, required: true })
+    createdStory: Date;
 }

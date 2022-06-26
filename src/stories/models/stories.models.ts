@@ -19,8 +19,11 @@ export class Story {
     @Prop({ required: true, default: '' })
     desc: string;
 
-    @Prop({ required: false, default: '' })
-    image: string;
+    @Prop({ required: false, default: [] })
+    image: [];
+
+    @Prop({ required: false })
+    createdStory: Date
 }
 
 export const StorySchema = SchemaFactory.createForClass(Story);
