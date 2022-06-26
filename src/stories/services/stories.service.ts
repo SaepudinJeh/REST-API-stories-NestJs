@@ -15,7 +15,7 @@ export class StoriesService {
     return await createStory.save();
   }
 
-  async getStories(query: string): Promise<any[]> {
-    return this.storyModel.find({ authorId: query });
+  async getStories(): Promise<any[]> {
+    return await this.storyModel.find({}).sort({ createdAt: 'desc' });
   }
 }
