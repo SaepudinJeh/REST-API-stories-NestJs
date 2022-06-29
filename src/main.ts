@@ -20,7 +20,7 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
     allowedHeaders: '*',
-    methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS'
+    methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
   });
 
   const configSwagger = new DocumentBuilder()

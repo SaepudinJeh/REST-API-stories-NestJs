@@ -2,14 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { StoryDto } from '../dto/story.dto';
-import { Story, StoryDocument } from '../models/stories.models';
+import { Story, StoryDocument } from '../models';
 
 @Injectable()
 export class StoriesService {
-  constructor(@InjectModel(Story.name) private storyModel: Model<StoryDocument>) {}
+  constructor(
+    @InjectModel(Story.name) private storyModel: Model<StoryDocument>,
+  ) {}
 
   async createStories(storyDto: StoryDto): Promise<any> {
-    
     const createStory = new this.storyModel(storyDto);
 
     return await createStory.save();
@@ -20,8 +21,11 @@ export class StoriesService {
   }
 
   async getStoriesByUsername(query: string): Promise<any[]> {
-    console.log("service", query)
+    console.log('service', query);
 
-    return await this.storyModel.find({ username: query }).sort({ createdAt: 'desc' }).exec();
+    return await this.storyModel
+      .find({ username: query })
+      .sort({ createdAt: 'desc' })
+      .exec();
   }
 }

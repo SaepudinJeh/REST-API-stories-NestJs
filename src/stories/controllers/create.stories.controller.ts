@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query, Request, Response, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Query,
+  Request,
+  Response,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/utils/guards/jwt.guard';
 import { StoriesService } from '../services/stories.service';
@@ -14,47 +22,49 @@ export class StoriesController {
   @Post('post/stories')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get Stories' })
-  async createStories(@Body() storyDto: CreateStoryDto , @Request() req: any) {
-
+  async createStories(@Body() storyDto: CreateStoryDto, @Request() req: any) {
     return this.storiesService.createStories({
       ...storyDto,
-      authorId: new mongoose.Types.ObjectId(req?.user?.id)
+      authorId: new mongoose.Types.ObjectId(req?.user?.id),
     });
   }
 
   @Post('/stories')
   @ApiOperation({ summary: 'Get All stories By Username' })
-  async getStoriesByUsername(@Query('user') query: string, @Response() res: any ) {
+  async getStoriesByUsername(
+    @Query('user') query: string,
+    @Response() res: any,
+  ) {
     try {
-      console.log(query)
+      console.log(query);
 
       const data = await this.storiesService.getStoriesByUsername(query);
 
-      console.log({data})
+      console.log({ data });
 
       return res.status(200).json({
         statusCode: 200,
         message: 'Successfully',
-        data
-      })
+        data,
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return response.status(400).json({
         statusCode: 400,
-        message: 'Cant result story :('
-      })
+        message: 'Cant result story :(',
+      });
     }
   }
 
   @Post('get/stories')
   @ApiOperation({ summary: 'Get All Stories' })
-  async getStories(@Response() res:any) {
-    const result = await this.storiesService.getStories()
+  async getStories(@Response() res: any) {
+    const result = await this.storiesService.getStories();
 
     return res.status(200).json({
       statusCode: 200,
       message: 'Successfully',
-      data: result
-    })
+      data: result,
+    });
   }
 }

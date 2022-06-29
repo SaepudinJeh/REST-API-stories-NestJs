@@ -6,23 +6,23 @@ import { User, UserDocument } from '../models';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-    async registerUser(saveUser: SaveUser): Promise<User> {
-        const registerUser = new this.userModel(saveUser);
+  async registerUser(saveUser: SaveUser): Promise<User> {
+    const registerUser = new this.userModel(saveUser);
 
-        return await registerUser.save();
-    }
+    return await registerUser.save();
+  }
 
-    async findUser(findUser: any): Promise<any> {
-        return this.userModel.findOne({ ...findUser });
-    }
+  async findUser(findUser: any): Promise<any> {
+    return this.userModel.findOne({ ...findUser });
+  }
 
-    async findUserId(id: string): Promise<any> {
-        return await this.userModel.findById(id);
-    }
+  async findUserId(id: string): Promise<any> {
+    return await this.userModel.findById(id);
+  }
 
-    async findUserByEmail(email: string): Promise<any> {
-        return await this.userModel.findOne({ email });
-    }
+  async findUserByEmail(email: string): Promise<any> {
+    return await this.userModel.findOne({ email });
+  }
 }
