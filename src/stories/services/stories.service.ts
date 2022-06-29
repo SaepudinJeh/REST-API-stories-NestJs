@@ -18,4 +18,10 @@ export class StoriesService {
   async getStories(): Promise<any[]> {
     return await this.storyModel.find({}).sort({ createdAt: 'desc' });
   }
+
+  async getStoriesByUsername(query: string): Promise<any[]> {
+    console.log("service", query)
+
+    return await this.storyModel.find({ username: query }).sort({ createdAt: 'desc' }).exec();
+  }
 }

@@ -21,12 +21,12 @@ export class AuthRegisterController {
         registerDto.password,
         parseInt(process.env.SALT_HASH),
       );
-  
+
       await this.authService.registerUser({
         ...registerDto,
         password: hashPassword,
       });
-  
+
       return response.json({
         message: 'Register Succesfully',
         statusCode: 201,
@@ -34,8 +34,10 @@ export class AuthRegisterController {
     } catch (err) {
       return response.status(400).json({
         statusCode: 400,
-        message: `${err.keyValue.email || err.keyValue.username} already exist!`
-      })
+        message: `${
+          err.keyValue.email || err.keyValue.username
+        } already exist!`,
+      });
     }
   }
 }

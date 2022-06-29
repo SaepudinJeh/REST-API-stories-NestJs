@@ -1,30 +1,29 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { UserService } from 'src/user/services/user.service';
 import { LoginDto } from '../dto/auth.login';
 import { RegisterDto } from '../dto/auth.register';
-
-import { User, UserDocument } from '../schemas/user.schema';
+import { UserModel } from '../models';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @Inject(forwardRef(() => UserService))
+    private userService: UserService,
+  ) {}
 
-  async registerUser(registerDto: RegisterDto): Promise<User> {
-    const registerUser = new this.userModel(registerDto);
-
-    return await registerUser.save();
+  async registerUser(registerDto: RegisterDto): Promise<any> {
+    return await this.userService.registerUser(registerDto);
   }
 
   async loginUser(loginDto: LoginDto): Promise<any> {
-    return this.userModel.findOne({ ...loginDto });
+    return this.userService.findUser({ ...loginDto });
   }
 
-  async findUserId(id: string): Promise<User> {
-    return await this.userModel.findById(id);
+  async findUserId(id: string): Promise<UserModel> {
+    return await this.userService.findUserId(id);
   }
 
-  async findUserByEmail(email: string): Promise<any> {
-    return await this.userModel.findOne({ email });
+  async findUserByEmail(email: string): Promise<UserModel> {
+    return await this.userService.findUserByEmail(email);
   }
 }

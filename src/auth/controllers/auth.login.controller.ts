@@ -44,11 +44,11 @@ export class AuthLoginController {
     }
 
     return response.status(200).json({
-      statusCode:200,
+      statusCode: 200,
       access_token: this.jwtService.sign({
         id: checkUserExist._id,
         email: checkUserExist.email,
-        role: checkUserExist.role
+        role: checkUserExist.role,
       }),
     });
   }

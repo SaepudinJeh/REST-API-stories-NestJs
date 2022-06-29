@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import * as mongoose from "mongoose"
-import { User } from "src/auth/schemas/user.schema";
+import { User } from "src/user/models";
 
 export type StoryDocument = Story & mongoose.Document;
 

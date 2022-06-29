@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post, Request, Response, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Request, Response, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/utils/guards/jwt.guard';
 import { StoriesService } from '../services/stories.service';
 import * as mongoose from 'mongoose';
 import { CreateStoryDto } from '../dto/createStory.dto';
+import { response } from 'express';
 
 @Controller('v1')
 export class StoriesController {
@@ -21,6 +22,30 @@ export class StoriesController {
     });
   }
 
+  @Post('/stories')
+  @ApiOperation({ summary: 'Get All stories By Username' })
+  async getStoriesByUsername(@Query('user') query: string, @Response() res: any ) {
+    try {
+      console.log(query)
+
+      const data = await this.storiesService.getStoriesByUsername(query);
+
+      console.log({data})
+
+      return res.status(200).json({
+        statusCode: 200,
+        message: 'Successfully',
+        data
+      })
+    } catch (error) {
+      console.log(error)
+      return response.status(400).json({
+        statusCode: 400,
+        message: 'Cant result story :('
+      })
+    }
+  }
+
   @Post('get/stories')
   @ApiOperation({ summary: 'Get All Stories' })
   async getStories(@Response() res:any) {
@@ -31,6 +56,5 @@ export class StoriesController {
       message: 'Successfully',
       data: result
     })
-
   }
 }
