@@ -24,6 +24,7 @@ export class AuthRegisterController {
 
       await this.authService.registerUser({
         ...registerDto,
+        username: registerDto.username.toLowerCase(),
         password: hashPassword,
       });
 

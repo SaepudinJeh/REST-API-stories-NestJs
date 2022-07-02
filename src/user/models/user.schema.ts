@@ -23,6 +23,9 @@ export class User {
 
   @Prop({ default: '' })
   bio: string;
+
+  @Prop({ type: Boolean, default: false })
+  verifedEmail: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

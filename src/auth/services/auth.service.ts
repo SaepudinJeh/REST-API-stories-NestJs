@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/services/user.service';
 import { LoginDto } from '../dto/auth.login';
 import { RegisterDto } from '../dto/auth.register';
@@ -7,7 +7,7 @@ import { UserModel } from '../models';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(forwardRef(() => UserService))
+    @Inject(UserService)
     private userService: UserService,
   ) {}
 
