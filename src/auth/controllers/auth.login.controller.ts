@@ -1,11 +1,12 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
-import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
 import { LoginDto } from '../dto/auth.login';
 import { AuthService } from '../services/auth.service';
 
+@ApiTags('Auth')
 @Controller('v1/auth')
 export class AuthLoginController {
   constructor(

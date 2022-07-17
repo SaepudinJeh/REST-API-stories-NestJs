@@ -1,9 +1,10 @@
 import { Controller, Post, Query, Response } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { UserService } from 'src/user/services/user.service';
 import { StoriesService } from '../services/stories.service';
 
+@ApiTags('Stories')
 @Controller('v1')
 export class GetStoriesController {
   constructor(

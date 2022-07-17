@@ -5,19 +5,31 @@ import { UserModule } from 'src/user/user.module';
 import {
   AuthRegisterController,
   AuthLoginController,
-} from './controllers/index';
+  GoogleOauthController,
+} from './controllers';
 
-import { AuthService } from './services/auth.service';
-import { JwtStrategy } from './strategy/jwt.strategy';
+import { AuthService } from './services';
+import { GoogleOauthStrategy, JwtStrategy } from './strategy';
 
 @Module({
   imports: [
     UserModule,
-    JwtModule.register({
-      secret: process.env.SECRET_JWT,
+    JwtModule.registerAsync({
+      useFactory: async () => {
+        return {
+          secret: process.env.SECRET_JWT,
+          signOptions: {
+            expiresIn: 60 * 60 * 24,
+          },
+        };
+      },
     }),
   ],
-  controllers: [AuthRegisterController, AuthLoginController],
-  providers: [AuthService, JwtStrategy],
+  controllers: [
+    AuthRegisterController,
+    AuthLoginController,
+    GoogleOauthController,
+  ],
+  providers: [AuthService, JwtStrategy, GoogleOauthStrategy],
 })
 export class AuthModule {}

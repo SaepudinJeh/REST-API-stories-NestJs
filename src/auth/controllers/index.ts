@@ -1,4 +1,3 @@
-import { AuthLoginController } from './auth.login.controller';
-import { AuthRegisterController } from './auth.register.controller';
-
-export { AuthLoginController, AuthRegisterController };
+export * from './auth.login.controller';
+export * from './auth.register.controller';
+export * from './google.oauth.controller';

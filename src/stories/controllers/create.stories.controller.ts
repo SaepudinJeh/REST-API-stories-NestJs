@@ -1,22 +1,25 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/utils/guards/jwt.guard';
+import { ApiOperation, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/utils';
 import { StoriesService } from '../services/stories.service';
-import * as mongoose from 'mongoose';
 import { CreateStoryDto } from '../dto/createStory.dto';
 
+@ApiTags('Stories')
 @Controller('v1')
 export class CreateStoryController {
   constructor(private storiesService: StoriesService) {}
 
+  // @UseGuards(GoogleOauthGuard)
   @UseGuards(JwtAuthGuard)
   @Post('post/stories')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'POST Stories' })
   async createStories(@Body() storyDto: CreateStoryDto, @Request() req: any) {
+    console.log(req.user);
+
     return this.storiesService.createStories({
       ...storyDto,
-      authorId: new mongoose.Types.ObjectId(req?.user?.id),
+      authorId: req?.user?.id,
     });
   }
 }

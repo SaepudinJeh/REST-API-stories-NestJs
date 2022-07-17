@@ -31,7 +31,6 @@ async function bootstrap() {
       'Everyone can print their own history and everyone has rights for himself and what he will do for himself in the future',
     )
     .setVersion('0.5.0')
-    .addTag('stories')
     .addBearerAuth()
     .build();
 

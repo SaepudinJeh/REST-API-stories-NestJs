@@ -12,7 +12,7 @@ export class User {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: null })
   password: string;
 
   @Prop({ enum: Role, default: Role.User, required: true })
@@ -25,7 +25,7 @@ export class User {
   bio: string;
 
   @Prop({ type: Boolean, default: false })
-  verifedEmail: boolean;
+  email_verified: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
