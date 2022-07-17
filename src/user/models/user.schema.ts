@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
+import { Provider } from 'src/utils';
 import { Role } from 'src/utils/role.enum.utils';
 
 export type UserDocument = User & mongoose.Document;
@@ -12,22 +13,22 @@ export class User {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ required: true, default: null })
+  @Prop({ default: null })
   password: string;
 
   @Prop({ enum: Role, default: Role.User, required: true })
   role: string;
 
-  @Prop({ default: '' })
+  @Prop({ default: null })
   avatar: string;
 
-  @Prop({ default: '' })
+  @Prop({ default: null })
   bio: string;
 
   @Prop({ type: Boolean, default: false })
   email_verified: boolean;
 
-  @Prop({ type: String, default: 'jwt' })
+  @Prop({ enum: Provider, default: Provider.Jwt, required: true })
   provider: string;
 }
 

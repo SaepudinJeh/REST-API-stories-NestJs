@@ -8,7 +8,7 @@ export class SaveUser {
   @IsEmail()
   email: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   password: string;
 
   @IsOptional()

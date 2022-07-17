@@ -19,6 +19,6 @@ export class OauthLoginDto {
   avatar: string;
 
   @IsNotEmpty()
-  @ApiProperty({ type: String, enum: ['jwt', 'google', 'facebook'] })
+  @ApiProperty({ type: String, enum: ['google', 'facebook'] })
   provider: string;
 }

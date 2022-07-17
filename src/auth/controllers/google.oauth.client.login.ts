@@ -2,6 +2,8 @@ import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
+import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
+
 import { OauthLoginDto } from '../dto';
 import { AuthService } from '../services';
 
@@ -19,13 +21,38 @@ export class LoginOauthController {
     @Req() req: Request,
     @Res() res: any,
   ) {
-    const dataUser = await this.authService.oauthLogin(oauthLoginDto);
+    try {
+      const randomUsername = uniqueNamesGenerator({
+        length: 2,
+        separator: '',
+        dictionaries: [colors, animals],
+      });
+      console.log(randomUsername);
 
-    const { email, username, role, _id, bio, avatar } = dataUser;
+      const dataUser = await this.authService.oauthLogin({
+        ...oauthLoginDto,
+        username: randomUsername,
+      });
 
-    return res.json({
-      user: { email, username, avatar, bio },
-      access_token: this.jwtService.sign({ _id, email, role }),
-    });
+      console.log('user', dataUser);
+
+      const { email, username, role, _id, bio, avatar } = dataUser;
+
+      return res.json({
+        user: { email, username, avatar, bio },
+        access_token: this.jwtService.sign({ _id, email, role }),
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({
+        statusCode: 400,
+        message:
+          (error._message && error._message) ||
+          `${
+            (error?.keyValue?.email && 'Email') ||
+            (error?.keyValue?.username && 'Username')
+          } already exist!`,
+      });
+    }
   }
 }
