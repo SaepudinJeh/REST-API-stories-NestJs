@@ -26,6 +26,9 @@ export class User {
 
   @Prop({ type: Boolean, default: false })
   email_verified: boolean;
+
+  @Prop({ type: String, default: 'jwt' })
+  provider: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

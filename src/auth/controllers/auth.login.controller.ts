@@ -25,17 +25,17 @@ export class AuthLoginController {
 
     const checkUserExist = await this.authService.findUserByEmail(email);
 
-    const comparePassword = await bcrypt.compare(
-      password,
-      checkUserExist.password,
-    );
-
     if (!checkUserExist) {
       return response.status(401).json({
         message: 'Unregistered Email!',
         statusCode: 401,
       });
     }
+
+    const comparePassword = await bcrypt.compare(
+      password,
+      checkUserExist.password,
+    );
 
     if (!comparePassword) {
       return response.status(401).json({

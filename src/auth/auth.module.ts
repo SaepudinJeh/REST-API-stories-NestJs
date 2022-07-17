@@ -6,6 +6,7 @@ import {
   AuthRegisterController,
   AuthLoginController,
   GoogleOauthController,
+  LoginOauthController,
 } from './controllers';
 
 import { AuthService } from './services';
@@ -29,6 +30,7 @@ import { GoogleOauthStrategy, JwtStrategy } from './strategy';
     AuthRegisterController,
     AuthLoginController,
     GoogleOauthController,
+    LoginOauthController,
   ],
   providers: [AuthService, JwtStrategy, GoogleOauthStrategy],
 })

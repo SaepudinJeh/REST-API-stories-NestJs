@@ -18,8 +18,6 @@ export class GoogleOauthController {
   @Get('redirect')
   @UseGuards(GoogleOauthGuard)
   async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    console.log('user', req.user);
-
     return res.json({
       access_token: this.jwtService.sign({
         data: req.user,

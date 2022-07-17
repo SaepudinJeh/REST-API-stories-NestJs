@@ -3,6 +3,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Global()
 @Module({
-  imports: [MongooseModule.forRoot(process.env.MONGO_URI)],
+  imports: [MongooseModule.forRoot(process.env.MONGO_URI_LOCAL)],
 })
 export class DatabasesModule {}

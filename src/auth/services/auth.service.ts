@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/services/user.service';
+import { OauthLoginDto } from '../dto';
 import { LoginDto } from '../dto/auth.login';
 import { RegisterDto } from '../dto/auth.register';
 import { UserModel } from '../models';
@@ -12,7 +13,25 @@ export class AuthService {
   ) {}
 
   async registerUser(registerDto: RegisterDto): Promise<any> {
-    return await this.userService.registerUser(registerDto);
+    return await this.userService.registerUser({
+      ...registerDto,
+      avatar: '',
+      email_verified: false,
+      provider: 'jwt',
+    });
+  }
+
+  async oauthLogin(oauthLoginDto: OauthLoginDto): Promise<any> {
+    const user = await this.findUserByEmail(oauthLoginDto.email);
+
+    if (!user) {
+      return await this.userService.registerUser({
+        ...oauthLoginDto,
+        password: '',
+      });
+    }
+
+    return user;
   }
 
   async loginUser(loginDto: LoginDto): Promise<any> {

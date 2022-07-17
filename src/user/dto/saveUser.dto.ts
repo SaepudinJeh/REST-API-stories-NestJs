@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class SaveUser {
   @IsNotEmpty()
@@ -10,4 +10,14 @@ export class SaveUser {
 
   @IsNotEmpty()
   password: string;
+
+  @IsOptional()
+  @IsString()
+  avatar: string;
+
+  @IsOptional()
+  email_verified: boolean;
+
+  @IsOptional()
+  provider: string;
 }
