@@ -1,17 +1,20 @@
 import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { UserController } from './controllers/user.controller';
-import { User, UserSchema } from './models';
-import { UserService } from './services/user.service';
+import { GetUserController } from './controllers';
+import { MediaSocial, MediaSocialSchema, User, UserSchema } from './models';
+import { SocialMediaService, UserService } from './services';
 
 @Global()
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: MediaSocial.name, schema: MediaSocialSchema },
+    ]),
   ],
-  providers: [UserService],
-  controllers: [UserController],
+  providers: [UserService, SocialMediaService],
+  controllers: [GetUserController],
   exports: [UserService],
 })
 export class UserModule {}
