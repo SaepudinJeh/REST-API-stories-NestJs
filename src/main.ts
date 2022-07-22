@@ -25,7 +25,7 @@ async function bootstrap() {
 
   const configSwagger = new DocumentBuilder()
     .addServer('http://localhost:3000')
-    .addServer('https://story-wkwk-app.herokuapp.com')
+    .addServer('https://story-next-generation.herokuapp.com')
     .setTitle('The REST API Stories')
     .setDescription(
       'Everyone can print their own history and everyone has rights for himself and what he will do for himself in the future',

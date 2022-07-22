@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { GetUserController } from './controllers';
+import { EditUserController, GetUserController } from './controllers';
 import { MediaSocial, MediaSocialSchema, User, UserSchema } from './models';
 import { SocialMediaService, UserService } from './services';
 
@@ -14,7 +14,7 @@ import { SocialMediaService, UserService } from './services';
     ]),
   ],
   providers: [UserService, SocialMediaService],
-  controllers: [GetUserController],
+  controllers: [GetUserController, EditUserController],
   exports: [UserService],
 })
 export class UserModule {}
