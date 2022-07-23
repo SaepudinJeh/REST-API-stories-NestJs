@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MediaSocial, SocialMediaDocument } from '../models';
+import { SocialMediaEntity } from '../models/entities';
 
 @Injectable()
 export class SocialMediaService {
@@ -20,11 +21,24 @@ export class SocialMediaService {
     }
   }
 
-  async createMediaSocial(authorId: string) {
+  async createMediaSocial(authorId: string): Promise<any> {
     try {
       const mediaSocial = new this.socialMediaModel({ user: authorId });
       return await mediaSocial.save();
     } catch (error) {
+      return error;
+    }
+  }
+
+  async updateLinked(socialMediaEntity: SocialMediaEntity): Promise<any> {
+    try {
+      return await this.socialMediaModel.findOneAndUpdate(
+        socialMediaEntity.authorId,
+        socialMediaEntity,
+        { upsert: true },
+      );
+    } catch (error) {
+      console.log(error);
       return error;
     }
   }

@@ -23,12 +23,15 @@ export class AuthService {
         email: registerEntity.email,
       });
 
-      if (!user) {
+      console.log('oauth login', user);
+
+      if (!user.data) {
         return await this.userService.registerUser(registerEntity);
       }
 
       return user;
     } catch (error) {
+      console.log(error);
       return error;
     }
   }

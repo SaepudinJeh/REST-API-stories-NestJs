@@ -1,7 +1,7 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
+import { Role } from 'src/utils';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
 import { OauthLoginDto } from '../dto';
@@ -16,11 +16,7 @@ export class LoginOauthController {
   ) {}
 
   @Post()
-  async loginOauth(
-    @Body() oauthLoginDto: OauthLoginDto,
-    @Req() req: Request,
-    @Res() res: any,
-  ) {
+  async loginOauth(@Body() oauthLoginDto: OauthLoginDto, @Res() res: any) {
     try {
       const randomUsername = uniqueNamesGenerator({
         length: 2,
@@ -33,17 +29,28 @@ export class LoginOauthController {
         ...oauthLoginDto,
         username: randomUsername,
         password: '',
-        role: '',
+        role: Role.User,
         bio: '',
       });
 
       console.log('user', dataUser);
 
-      const { email, username, role, _id, bio, avatar } = dataUser;
+      const { data, linked } = dataUser;
 
       return res.json({
-        user: { email, username, avatar, bio },
-        access_token: this.jwtService.sign({ _id, email, role }),
+        user: {
+          _id: data._id,
+          username: data.username,
+          email: data.email,
+          avatar: data.avatar,
+          bio: data.bio,
+          linked,
+        },
+        access_token: this.jwtService.sign({
+          _id: data._id,
+          email: data.email,
+          role: data.role,
+        }),
       });
     } catch (error) {
       console.log(error);
@@ -51,6 +58,7 @@ export class LoginOauthController {
         statusCode: 400,
         message:
           (error._message && error._message) ||
+          error ||
           `${
             (error?.keyValue?.email && 'Email') ||
             (error?.keyValue?.username && 'Username')
