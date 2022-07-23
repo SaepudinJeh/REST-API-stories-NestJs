@@ -13,19 +13,33 @@ export class StoriesService {
   ) {}
 
   async createStories(storyDto: StoryDto): Promise<any> {
-    const createStory = new this.storyModel(storyDto);
+    try {
+      const createStory = new this.storyModel(storyDto);
 
-    return await createStory.save();
+      return await createStory.save();
+    } catch (error) {
+      return error;
+    }
   }
 
   async getStories(): Promise<any[]> {
-    return await this.storyModel.find({}).sort({ createdAt: 'desc' });
+    try {
+      return await this.storyModel.find({}).sort({ createdAt: 'desc' });
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 
   async getStoriesByUser(_id: string): Promise<any[]> {
-    return await this.storyModel
-      .find({ authorId: _id })
-      .sort({ createdAt: 'desc' })
-      .exec();
+    try {
+      return await this.storyModel
+        .find({ authorId: _id })
+        .sort({ createdAt: 'desc' })
+        .exec();
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 }
