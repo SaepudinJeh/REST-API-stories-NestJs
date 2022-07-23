@@ -21,41 +21,48 @@ export class AuthLoginController {
     type: LoginDto,
   })
   async loginUser(@Body() userLoginDto: LoginDto, @Res() response: any) {
-    const { email, password } = userLoginDto;
+    try {
+      const { email, password } = userLoginDto;
 
-    const { data, linked } = await this.authService.findUser(email);
+      const { data, linked } = await this.authService.findUser(email);
 
-    if (!data && !linked) {
-      return response.status(401).json({
-        message: 'Unregistered Email!',
-        statusCode: 401,
+      if (!data && !linked) {
+        return response.status(401).json({
+          message: 'Unregistered Email!',
+          statusCode: 401,
+        });
+      }
+
+      const comparePassword = await bcrypt.compare(password, data.password);
+
+      if (!comparePassword) {
+        return response.status(401).json({
+          message: 'Invalid Password',
+          statusCode: 401,
+        });
+      }
+
+      return response.status(200).json({
+        statusCode: 200,
+        user: {
+          _id: data.id,
+          username: data.username,
+          email: data.email,
+          avatar: data.avatar,
+          bio: data.bio,
+          linked: linked,
+        },
+        access_token: this.jwtService.sign({
+          id: data._id,
+          email: data.email,
+          role: data.role,
+        }),
+      });
+    } catch (err) {
+      return response.status(400).json({
+        statusCode: 400,
+        message: err,
       });
     }
-
-    const comparePassword = await bcrypt.compare(password, data.password);
-
-    if (!comparePassword) {
-      return response.status(401).json({
-        message: 'Invalid Password',
-        statusCode: 401,
-      });
-    }
-
-    return response.status(200).json({
-      statusCode: 200,
-      user: {
-        _id: data.id,
-        username: data.username,
-        email: data.email,
-        avatar: data.avatar,
-        bio: data.bio,
-        linked: linked,
-      },
-      access_token: this.jwtService.sign({
-        id: data._id,
-        email: data.email,
-        role: data.role,
-      }),
-    });
   }
 }
