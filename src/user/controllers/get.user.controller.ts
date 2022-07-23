@@ -12,14 +12,21 @@ export class GetUserController {
   @ApiOperation({ summary: 'Find User by Username' })
   async findUser(@Query() query: any, @Res() res: any) {
     try {
-      const result = await this.userService.findUser({
+      const { data, linked } = await this.userService.findUser({
         username: query.username,
       });
 
       res.status(200).json({
         message: 'User Exist',
         statusCode: 200,
-        user: result,
+        user: {
+          _id: data.id,
+          username: data.username,
+          email: data.email,
+          avatar: data.avatar,
+          bio: data.bio,
+          linked: linked,
+        },
       });
     } catch (error) {
       console.log('Find user by username', error);

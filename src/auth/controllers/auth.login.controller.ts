@@ -23,19 +23,16 @@ export class AuthLoginController {
   async loginUser(@Body() userLoginDto: LoginDto, @Res() response: any) {
     const { email, password } = userLoginDto;
 
-    const checkUserExist = await this.authService.findUserByEmail(email);
+    const { data, linked } = await this.authService.findUser(email);
 
-    if (!checkUserExist) {
+    if (!data && !linked) {
       return response.status(401).json({
         message: 'Unregistered Email!',
         statusCode: 401,
       });
     }
 
-    const comparePassword = await bcrypt.compare(
-      password,
-      checkUserExist.password,
-    );
+    const comparePassword = await bcrypt.compare(password, data.password);
 
     if (!comparePassword) {
       return response.status(401).json({
@@ -46,10 +43,18 @@ export class AuthLoginController {
 
     return response.status(200).json({
       statusCode: 200,
+      user: {
+        _id: data.id,
+        username: data.username,
+        email: data.email,
+        avatar: data.avatar,
+        bio: data.bio,
+        linked: linked,
+      },
       access_token: this.jwtService.sign({
-        id: checkUserExist._id,
-        email: checkUserExist.email,
-        role: checkUserExist.role,
+        id: data._id,
+        email: data.email,
+        role: data.role,
       }),
     });
   }

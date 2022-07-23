@@ -1,8 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { RegisterUserEntity } from 'src/user/models/entities';
 import { UserService } from 'src/user/services/user.service';
-import { LoginDto } from '../dto/auth.login';
-import { UserModel } from '../models';
 
 @Injectable()
 export class AuthService {
@@ -12,28 +10,42 @@ export class AuthService {
   ) {}
 
   async registerUser(registerEntity: RegisterUserEntity): Promise<any> {
-    return await this.userService.registerUser(registerEntity);
+    try {
+      return await this.userService.registerUser(registerEntity);
+    } catch (error) {
+      return error;
+    }
   }
 
   async oauthLogin(registerEntity: RegisterUserEntity): Promise<any> {
-    const user = await this.userService.findUserByEmail(registerEntity.email);
+    try {
+      const user = await this.userService.findUser({
+        email: registerEntity.email,
+      });
 
-    if (!user) {
-      return await this.userService.registerUser(registerEntity);
+      if (!user) {
+        return await this.userService.registerUser(registerEntity);
+      }
+
+      return user;
+    } catch (error) {
+      return error;
     }
-
-    return user;
   }
 
-  async loginUser(loginDto: LoginDto): Promise<any> {
-    return this.userService.findUser({ ...loginDto });
+  async findUserId(id: string): Promise<any> {
+    try {
+      return await this.userService.findUserId(id);
+    } catch (error) {
+      return error;
+    }
   }
 
-  async findUserId(id: string): Promise<UserModel> {
-    return await this.userService.findUserId(id);
-  }
-
-  async findUserByEmail(email: string): Promise<UserModel> {
-    return await this.userService.findUserByEmail(email);
+  async findUser(email: string): Promise<any> {
+    try {
+      return await this.userService.findUser(email);
+    } catch (error) {
+      return error;
+    }
   }
 }

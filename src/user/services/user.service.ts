@@ -33,7 +33,7 @@ export class UserService {
     try {
       const result = await this.userModel
         .findOne({ ...findUser })
-        .select('_id username email avatar bio');
+        .select('username email avatar bio password role');
 
       const mediaSocial = await this.mediaSocialService.findMediaSocial(
         result?._id,
@@ -47,10 +47,12 @@ export class UserService {
   }
 
   async findUserId(id: string): Promise<any> {
-    return await this.userModel.findById(id);
-  }
-
-  async findUserByEmail(email: string): Promise<any> {
-    return await this.userModel.findOne({ email });
+    try {
+      return await this.userModel
+        .findById(id)
+        .select('username email avatar bio role');
+    } catch (error) {
+      return error;
+    }
   }
 }
