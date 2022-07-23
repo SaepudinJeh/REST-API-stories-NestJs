@@ -1,6 +1,8 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import * as bcrypt from 'bcrypt';
+import { Provider, Role } from 'src/utils';
+import { AvatarImage } from '../dto';
 
 import { RegisterDto } from '../dto/auth.register';
 import { AuthService } from '../services/auth.service';
@@ -18,6 +20,8 @@ export class AuthRegisterController {
   })
   async registerUser(@Body() registerDto: RegisterDto, @Res() response: any) {
     try {
+      console.log('payload', registerDto.email);
+
       const hashPassword = await bcrypt.hash(
         registerDto.password,
         parseInt(process.env.SALT_HASH),
@@ -27,6 +31,11 @@ export class AuthRegisterController {
         ...registerDto,
         username: registerDto.username.toLowerCase(),
         password: hashPassword,
+        avatar: new AvatarImage(),
+        bio: '',
+        email_verified: false,
+        provider: Provider.local,
+        role: Role.User,
       });
 
       return response.json({

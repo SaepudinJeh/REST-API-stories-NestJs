@@ -12,7 +12,18 @@ export class SocialMediaService {
 
   async findMediaSocial(authorId: string) {
     try {
-      return await this.socialMediaModel.findOne({ authorId });
+      return await this.socialMediaModel
+        .findOne({ authorId })
+        .select('facebook twitter -_id');
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async createMediaSocial(authorId: string) {
+    try {
+      const mediaSocial = new this.socialMediaModel({ user: authorId });
+      return await mediaSocial.save();
     } catch (error) {
       return error;
     }

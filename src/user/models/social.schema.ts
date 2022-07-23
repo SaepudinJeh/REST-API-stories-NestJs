@@ -8,11 +8,11 @@ export class MediaSocial {
   @Prop({ required: true })
   user: string;
 
-  @Prop({ type: String, default: '' })
-  facebook: string;
+  @Prop({ type: String, default: null })
+  facebook: string = null;
 
-  @Prop({ type: String, default: '' })
-  twitter: string;
+  @Prop({ type: String, default: null })
+  twitter: string = null;
 }
 
 export const MediaSocialSchema = SchemaFactory.createForClass(MediaSocial);

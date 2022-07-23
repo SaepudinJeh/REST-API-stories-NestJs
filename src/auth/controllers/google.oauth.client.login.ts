@@ -32,6 +32,9 @@ export class LoginOauthController {
       const dataUser = await this.authService.oauthLogin({
         ...oauthLoginDto,
         username: randomUsername,
+        password: '',
+        role: '',
+        bio: '',
       });
 
       console.log('user', dataUser);

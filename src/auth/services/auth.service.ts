@@ -1,9 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { RegisterUserEntity } from 'src/user/models/entities';
 import { UserService } from 'src/user/services/user.service';
-import { Provider } from 'src/utils';
-import { OauthLoginDto } from '../dto';
 import { LoginDto } from '../dto/auth.login';
-import { RegisterDto } from '../dto/auth.register';
 import { UserModel } from '../models';
 
 @Injectable()
@@ -13,23 +11,15 @@ export class AuthService {
     private userService: UserService,
   ) {}
 
-  async registerUser(registerDto: RegisterDto): Promise<any> {
-    return await this.userService.registerUser({
-      ...registerDto,
-      avatar: '',
-      email_verified: false,
-      provider: Provider.Jwt,
-    });
+  async registerUser(registerEntity: RegisterUserEntity): Promise<any> {
+    return await this.userService.registerUser(registerEntity);
   }
 
-  async oauthLogin(oauthLoginDto: OauthLoginDto): Promise<any> {
-    const user = await this.userService.findUserByEmail(oauthLoginDto.email);
+  async oauthLogin(registerEntity: RegisterUserEntity): Promise<any> {
+    const user = await this.userService.findUserByEmail(registerEntity.email);
 
     if (!user) {
-      return await this.userService.registerUser({
-        ...oauthLoginDto,
-        password: null,
-      });
+      return await this.userService.registerUser(registerEntity);
     }
 
     return user;

@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { EditUserController, GetUserController } from './controllers';
 import { MediaSocial, MediaSocialSchema, User, UserSchema } from './models';
+import { RegisterUserEntity } from './models/entities/register.entity';
 import { SocialMediaService, UserService } from './services';
 
 @Global()
@@ -13,8 +14,8 @@ import { SocialMediaService, UserService } from './services';
       { name: MediaSocial.name, schema: MediaSocialSchema },
     ]),
   ],
-  providers: [UserService, SocialMediaService],
+  providers: [UserService, SocialMediaService, RegisterUserEntity],
   controllers: [GetUserController, EditUserController],
-  exports: [UserService],
+  exports: [UserService, RegisterUserEntity],
 })
 export class UserModule {}

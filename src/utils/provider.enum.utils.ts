@@ -1,5 +1,5 @@
 export enum Provider {
-  Jwt = 'jwt',
+  local = 'local',
   google = 'google',
   facebook = 'facebook',
 }

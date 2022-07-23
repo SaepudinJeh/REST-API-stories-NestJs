@@ -20,7 +20,7 @@ export class User {
   role: string;
 
   @Prop({ default: null })
-  avatar: string;
+  avatar: [];
 
   @Prop({ default: null })
   bio: string;
@@ -28,7 +28,7 @@ export class User {
   @Prop({ type: Boolean, default: false })
   email_verified: boolean;
 
-  @Prop({ enum: Provider, default: Provider.Jwt, required: true })
+  @Prop({ enum: Provider, default: Provider.local, required: true })
   provider: string;
 }
 
