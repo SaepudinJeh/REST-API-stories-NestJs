@@ -29,20 +29,18 @@ export class CreateStoryController {
     try {
       const result = await this.storiesService.createStories({
         ...storyDto,
-        authorId: req?.user?.id,
+        author: req?.user?._id,
       });
+
+      console.log('create story', result);
 
       return res.status(201).json({
         statusCode: 201,
         message: 'Story created successfully',
-        result: result,
       });
-    } catch (error) {
-      console.log(error);
-      return res.status(400).json({
-        statusCode: 400,
-        message: error,
-      });
+    } catch (err) {
+      console.log(err);
+      return err;
     }
   }
 }

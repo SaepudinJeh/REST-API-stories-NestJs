@@ -20,7 +20,7 @@ import { GoogleOauthStrategy, JwtStrategy } from './strategy';
         return {
           secret: process.env.SECRET_JWT,
           signOptions: {
-            expiresIn: 60 * 10,
+            expiresIn: 60 * 10 * 24,
           },
         };
       },

@@ -1,20 +1,20 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { UserService } from 'src/user/services/user.service';
-import { StoryDto } from '../dto/story.dto';
-import { Story, StoryDocument } from '../models';
+import { Story } from '../models';
+import { CreateStoryEntity } from '../models/entities';
 
 @Injectable()
 export class StoriesService {
   constructor(
     @Inject(UserService) private userService: UserService,
-    @InjectModel(Story.name) private storyModel: Model<StoryDocument>,
+    @InjectModel(Story.name) private storyModel: Model<Story>,
   ) {}
 
-  async createStories(storyDto: StoryDto): Promise<any> {
+  async createStories(createStoryEntity: CreateStoryEntity): Promise<any> {
     try {
-      const createStory = new this.storyModel(storyDto);
+      const createStory = new this.storyModel(createStoryEntity);
 
       return await createStory.save();
     } catch (error) {
@@ -31,12 +31,18 @@ export class StoriesService {
     }
   }
 
-  async getStoriesByUser(_id: string): Promise<any[]> {
+  async getStoriesByUser(authorId: mongoose.Types.ObjectId): Promise<any[]> {
     try {
-      return await this.storyModel
-        .find({ authorId: _id })
+      const result = await this.storyModel
+        .find({ author: authorId })
+        .populate({
+          path: 'author',
+          select: '_id username avatar',
+        })
         .sort({ createdAt: 'desc' })
         .exec();
+
+      return result;
     } catch (error) {
       console.log(error);
       return error;

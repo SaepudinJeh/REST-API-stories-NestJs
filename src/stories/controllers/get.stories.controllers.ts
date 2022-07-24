@@ -19,26 +19,22 @@ export class GetStoriesController {
     @Response() res: any,
   ) {
     try {
-      const user = await this.userService.findUser({
+      const { data } = await this.userService.findUser({
         username: query.toLowerCase(),
       });
 
-      console.log(user);
-
-      if (!user) {
+      if (!data) {
         return res.status(400).json({
           statusCode: 400,
-          message: 'User not registered!',
+          message: 'Cant result story!',
         });
       } else {
-        const data = await this.storiesService.getStoriesByUser(user._id);
-
-        console.log({ data });
+        const result = await this.storiesService.getStoriesByUser(data._id);
 
         return res.status(200).json({
           statusCode: 200,
           message: 'Successfully',
-          data,
+          result,
         });
       }
     } catch (error) {

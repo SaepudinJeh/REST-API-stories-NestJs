@@ -1,1 +1,1 @@
-export * from './stories.models';
+export * from './schemas/stories.models';
