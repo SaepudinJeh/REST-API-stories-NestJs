@@ -20,7 +20,7 @@ export class AuthRegisterController {
   })
   async registerUser(@Body() registerDto: RegisterDto, @Res() response: any) {
     try {
-      console.log('payload', registerDto.email);
+      console.log('payload', registerDto);
 
       const hashPassword = await bcrypt.hash(
         registerDto.password,
@@ -36,14 +36,16 @@ export class AuthRegisterController {
         email_verified: false,
         provider: Provider.local,
         role: Role.User,
+        linked: null,
       });
 
-      return response.json({
+      response.json({
         message: 'Register Succesfully',
         statusCode: 201,
       });
     } catch (err) {
-      return response.status(400).json({
+      console.log('error', err);
+      response.status(400).json({
         statusCode: 400,
         message: `${
           err.keyValue.email || err.keyValue.username

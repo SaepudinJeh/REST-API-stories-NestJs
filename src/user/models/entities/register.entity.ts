@@ -1,11 +1,13 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsMongoId,
+  IsNotEmpty,
+  IsOptional,
+} from 'class-validator';
 import { Provider, Role } from 'src/utils';
-
-class AvatarImage {
-  provider: string = null;
-
-  ImageUrl: string = null;
-}
+import * as mongoose from 'mongoose';
+import { AvatarImage } from './avatar.entities';
 
 export class RegisterUserEntity {
   @IsNotEmpty()
@@ -21,10 +23,10 @@ export class RegisterUserEntity {
   @IsOptional()
   role: string = Role.User;
 
-  @IsNotEmpty()
-  avatar: AvatarImage;
+  @IsOptional()
+  avatar: any = AvatarImage;
 
-  @IsNotEmpty()
+  @IsOptional()
   bio: string = null;
 
   @IsNotEmpty()
@@ -33,4 +35,8 @@ export class RegisterUserEntity {
   @IsNotEmpty()
   @IsEnum(Provider)
   provider: Provider = Provider.local;
+
+  @IsMongoId()
+  @IsOptional()
+  linked: mongoose.Types.ObjectId = null;
 }

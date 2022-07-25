@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { MediaSocial, SocialMediaDocument } from '../models';
+import { MediaSocial } from '../models/schemas';
 import { SocialMediaEntity } from '../models/entities';
 
 @Injectable()
 export class SocialMediaService {
   constructor(
     @InjectModel(MediaSocial.name)
-    private socialMediaModel: Model<SocialMediaDocument>,
+    private socialMediaModel: Model<MediaSocial>,
   ) {}
 
   async findMediaSocial(authorId: string) {

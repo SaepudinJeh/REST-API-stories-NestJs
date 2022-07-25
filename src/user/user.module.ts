@@ -2,7 +2,12 @@ import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { EditUserController, GetUserController } from './controllers';
-import { MediaSocial, MediaSocialSchema, User, UserSchema } from './models';
+import {
+  MediaSocial,
+  MediaSocialSchema,
+  User,
+  UserSchema,
+} from './models/schemas';
 import { RegisterUserEntity } from './models/entities/register.entity';
 import { SocialMediaService, UserService } from './services';
 

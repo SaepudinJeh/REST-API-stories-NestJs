@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Provider } from 'src/utils';
 import { Role } from 'src/utils/role.enum.utils';
-
-export type UserDocument = User & mongoose.Document;
+import { AvatarImage } from '../entities';
+import { MediaSocial } from './social.schema';
 
 @Schema({ timestamps: true })
-export class User {
+export class User extends Document {
   @Prop({ required: true, unique: true })
   username: string;
 
@@ -19,7 +19,7 @@ export class User {
   @Prop({ enum: Role, default: Role.User, required: true })
   role: string;
 
-  @Prop({ default: null })
+  @Prop({ default: new AvatarImage() })
   avatar: [];
 
   @Prop({ default: null })
@@ -30,6 +30,9 @@ export class User {
 
   @Prop({ enum: Provider, default: Provider.local, required: true })
   provider: string;
+
+  @Prop({ type: MongooseSchema.Types.ObjectId, default: null })
+  linked: MediaSocial;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

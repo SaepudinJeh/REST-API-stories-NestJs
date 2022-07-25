@@ -1,13 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
-
-export type SocialMediaDocument = MediaSocial & mongoose.Document;
+import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
-export class MediaSocial {
-  @Prop({ required: true })
-  user: string;
-
+export class MediaSocial extends Document {
   @Prop({ type: String, default: null })
   facebook: string = null;
 

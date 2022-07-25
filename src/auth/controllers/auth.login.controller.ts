@@ -24,16 +24,16 @@ export class AuthLoginController {
     try {
       const { email, password } = userLoginDto;
 
-      const { data, linked } = await this.authService.findUser(email);
+      const user = await this.authService.findUser(email);
 
-      if (!data && !linked) {
+      if (!user) {
         return response.status(401).json({
           message: 'Unregistered Email!',
           statusCode: 401,
         });
       }
 
-      const comparePassword = await bcrypt.compare(password, data.password);
+      const comparePassword = await bcrypt.compare(password, user.password);
 
       if (!comparePassword) {
         return response.status(401).json({
@@ -45,17 +45,17 @@ export class AuthLoginController {
       return response.status(200).json({
         statusCode: 200,
         user: {
-          _id: data.id,
-          username: data.username,
-          email: data.email,
-          avatar: data.avatar,
-          bio: data.bio,
-          linked: linked,
+          _id: user.id,
+          username: user.username,
+          email: user.email,
+          avatar: user.avatar,
+          bio: user.bio,
+          linked: user.linked,
         },
         access_token: this.jwtService.sign({
-          id: data._id,
-          email: data.email,
-          role: data.role,
+          id: user._id,
+          email: user.email,
+          role: user.role,
         }),
       });
     } catch (err) {

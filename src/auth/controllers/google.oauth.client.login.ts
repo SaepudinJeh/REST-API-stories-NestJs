@@ -23,7 +23,6 @@ export class LoginOauthController {
         separator: '',
         dictionaries: [colors, animals],
       });
-      console.log(randomUsername);
 
       const dataUser = await this.authService.oauthLogin({
         ...oauthLoginDto,
@@ -31,25 +30,22 @@ export class LoginOauthController {
         password: '',
         role: Role.User,
         bio: '',
+        linked: null,
       });
 
-      console.log('user', dataUser);
-
-      const { data, linked } = dataUser;
-
-      return res.json({
+      return await res.json({
         user: {
-          _id: data._id,
-          username: data.username,
-          email: data.email,
-          avatar: data.avatar,
-          bio: data.bio,
-          linked,
+          _id: dataUser?._id,
+          username: dataUser?.username,
+          email: dataUser?.email,
+          avatar: dataUser?.avatar,
+          bio: dataUser?.bio,
+          linked: dataUser?.linked,
         },
         access_token: this.jwtService.sign({
-          _id: data._id,
-          email: data.email,
-          role: data.role,
+          _id: dataUser?._id,
+          email: dataUser?.email,
+          role: dataUser?.role,
         }),
       });
     } catch (error) {

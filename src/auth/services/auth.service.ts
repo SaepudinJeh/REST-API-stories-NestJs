@@ -10,45 +10,28 @@ export class AuthService {
   ) {}
 
   async registerUser(registerEntity: RegisterUserEntity): Promise<any> {
-    try {
-      return await this.userService.registerUser(registerEntity);
-    } catch (error) {
-      return error;
-    }
+    return await this.userService.saveUser(registerEntity);
   }
 
   async oauthLogin(registerEntity: RegisterUserEntity): Promise<any> {
-    try {
-      const user = await this.userService.findUser({
-        email: registerEntity.email,
-      });
+    const user = await this.userService.findUser({
+      email: registerEntity.email,
+    });
 
-      console.log('oauth login', user);
+    console.log('oauth login', user);
 
-      if (!user.data) {
-        return await this.userService.registerUser(registerEntity);
-      }
-
-      return user;
-    } catch (error) {
-      console.log(error);
-      return error;
+    if (!user) {
+      return await this.userService.saveUser(registerEntity);
     }
+
+    return user;
   }
 
   async findUserId(id: string): Promise<any> {
-    try {
-      return await this.userService.findUserId(id);
-    } catch (error) {
-      return error;
-    }
+    return await this.userService.findUserId(id);
   }
 
   async findUser(email: string): Promise<any> {
-    try {
-      return await this.userService.findUser(email);
-    } catch (error) {
-      return error;
-    }
+    return await this.userService.findUser(email);
   }
 }
