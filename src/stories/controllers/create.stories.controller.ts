@@ -16,7 +16,6 @@ import { CreateStoryDto } from '../dto/createStory.dto';
 export class CreateStoryController {
   constructor(private storiesService: StoriesService) {}
 
-  // @UseGuards(GoogleOauthGuard)
   @UseGuards(JwtAuthGuard)
   @Post('post/stories')
   @ApiBearerAuth()

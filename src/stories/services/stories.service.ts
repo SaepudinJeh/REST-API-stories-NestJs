@@ -13,39 +13,25 @@ export class StoriesService {
   ) {}
 
   async createStories(createStoryEntity: CreateStoryEntity): Promise<any> {
-    try {
-      const createStory = new this.storyModel(createStoryEntity);
+    const createStory = new this.storyModel(createStoryEntity);
 
-      return await createStory.save();
-    } catch (error) {
-      return error;
-    }
+    return await createStory.save();
   }
 
   async getStories(): Promise<any[]> {
-    try {
-      return await this.storyModel.find({}).sort({ createdAt: 'desc' });
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
+    return await this.storyModel.find({}).sort({ createdAt: 'desc' });
   }
 
   async getStoriesByUser(authorId: mongoose.Types.ObjectId): Promise<any[]> {
-    try {
-      const result = await this.storyModel
-        .find({ author: authorId })
-        .populate({
-          path: 'author',
-          select: '_id username avatar',
-        })
-        .sort({ createdAt: 'desc' })
-        .exec();
+    const result = await this.storyModel
+      .find({ author: authorId })
+      // .populate({
+      //   path: 'author',
+      //   select: '_id username avatar',
+      // })
+      .sort({ createdAt: 'desc' })
+      .exec();
 
-      return result;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
+    return result;
   }
 }

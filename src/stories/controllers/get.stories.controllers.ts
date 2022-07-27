@@ -19,17 +19,17 @@ export class GetStoriesController {
     @Response() res: any,
   ) {
     try {
-      const { data } = await this.userService.findUser({
+      const user = await this.userService.findUser({
         username: query.toLowerCase(),
       });
 
-      if (!data) {
+      if (!user) {
         return res.status(400).json({
           statusCode: 400,
           message: 'Cant result story!',
         });
       } else {
-        const result = await this.storiesService.getStoriesByUser(data._id);
+        const result = await this.storiesService.getStoriesByUser(user._id);
 
         return res.status(200).json({
           statusCode: 200,

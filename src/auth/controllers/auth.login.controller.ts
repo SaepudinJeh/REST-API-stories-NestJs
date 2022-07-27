@@ -53,7 +53,7 @@ export class AuthLoginController {
           linked: user.linked,
         },
         access_token: this.jwtService.sign({
-          id: user._id,
+          _id: user._id,
           email: user.email,
           role: user.role,
         }),

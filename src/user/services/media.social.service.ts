@@ -12,34 +12,21 @@ export class SocialMediaService {
   ) {}
 
   async findMediaSocial(authorId: string) {
-    try {
-      return await this.socialMediaModel
-        .findOne({ authorId })
-        .select('facebook twitter -_id');
-    } catch (error) {
-      return error;
-    }
+    return await this.socialMediaModel
+      .findOne({ authorId })
+      .select('facebook twitter -_id');
   }
 
   async createMediaSocial(authorId: string): Promise<any> {
-    try {
-      const mediaSocial = new this.socialMediaModel({ user: authorId });
-      return await mediaSocial.save();
-    } catch (error) {
-      return error;
-    }
+    const mediaSocial = new this.socialMediaModel({ user: authorId });
+    return await mediaSocial.save();
   }
 
   async updateLinked(socialMediaEntity: SocialMediaEntity): Promise<any> {
-    try {
-      return await this.socialMediaModel.findOneAndUpdate(
-        socialMediaEntity.authorId,
-        socialMediaEntity,
-        { upsert: true },
-      );
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
+    return await this.socialMediaModel.findOneAndUpdate(
+      socialMediaEntity.authorId,
+      socialMediaEntity,
+      { upsert: true },
+    );
   }
 }
