@@ -5,7 +5,7 @@ import {
   IsNotEmpty,
   IsOptional,
 } from 'class-validator';
-import { Provider, Role } from 'src/utils';
+import { Provider, Role } from '../../../utils';
 import * as mongoose from 'mongoose';
 import { AvatarImage } from './avatar.entities';
 

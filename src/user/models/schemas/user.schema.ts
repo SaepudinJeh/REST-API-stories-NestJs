@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Provider } from 'src/utils';
-import { Role } from 'src/utils/role.enum.utils';
+import { Provider, Role } from '../../../utils';
 import { AvatarImage } from '../entities';
 import { MediaSocial } from './social.schema';
 
