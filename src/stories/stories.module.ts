@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from 'src/user/user.module';
-import { CreateStoryController, GetStoriesController } from './controllers';
+import {
+  CreateStoryController,
+  DeleteStoryController,
+  GetStoriesController,
+} from './controllers';
 import { Story, StorySchema } from './models/schemas/stories.models';
 import { StoriesService } from './services/stories.service';
 
@@ -11,6 +15,10 @@ import { StoriesService } from './services/stories.service';
     UserModule,
   ],
   providers: [StoriesService],
-  controllers: [CreateStoryController, GetStoriesController],
+  controllers: [
+    CreateStoryController,
+    GetStoriesController,
+    DeleteStoryController,
+  ],
 })
 export class StoriesModule {}

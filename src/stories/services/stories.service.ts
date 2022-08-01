@@ -34,4 +34,14 @@ export class StoriesService {
 
     return result;
   }
+
+  async deleteStory(_id: any): Promise<any> {
+    const result = await this.storyModel.deleteOne({ _id });
+
+    return result;
+  }
+
+  async deleteStories(author: any): Promise<any> {
+    return await this.storyModel.deleteMany({ author });
+  }
 }
