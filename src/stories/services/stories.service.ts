@@ -1,16 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
-import { UserService } from 'src/user/services/user.service';
 import { Story } from '../models';
-import { CreateStoryEntity } from '../models/entities';
+import { CreateStoryEntity, UpdateStoryEntity } from '../models/entities';
 
 @Injectable()
 export class StoriesService {
-  constructor(
-    @Inject(UserService) private userService: UserService,
-    @InjectModel(Story.name) private storyModel: Model<Story>,
-  ) {}
+  constructor(@InjectModel(Story.name) private storyModel: Model<Story>) {}
 
   async createStories(createStoryEntity: CreateStoryEntity): Promise<any> {
     const createStory = new this.storyModel(createStoryEntity);
@@ -25,10 +21,10 @@ export class StoriesService {
   async getStoriesByUser(authorId: mongoose.Types.ObjectId): Promise<any[]> {
     const result = await this.storyModel
       .find({ author: authorId })
-      // .populate({
-      //   path: 'author',
-      //   select: '_id username avatar',
-      // })
+      .populate({
+        path: 'author',
+        select: '_id username avatar',
+      })
       .sort({ createdAt: 'desc' })
       .exec();
 
@@ -36,12 +32,23 @@ export class StoriesService {
   }
 
   async deleteStory(_id: any): Promise<any> {
-    const result = await this.storyModel.deleteOne({ _id });
+    const result = await this.storyModel.findByIdAndRemove(_id);
 
     return result;
   }
 
   async deleteStories(author: any): Promise<any> {
     return await this.storyModel.deleteMany({ author });
+  }
+
+  async updateStory(updateStoryEntity: UpdateStoryEntity): Promise<any> {
+    const { title, image, desc, createdStory } = updateStoryEntity;
+
+    return await this.storyModel.findByIdAndUpdate(updateStoryEntity._id, {
+      title,
+      image,
+      desc,
+      createdStory,
+    });
   }
 }

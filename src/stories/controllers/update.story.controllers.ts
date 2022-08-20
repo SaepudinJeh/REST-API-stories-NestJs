@@ -9,27 +9,24 @@ import {
 import { ApiOperation, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/utils';
 import { StoriesService } from '../services/stories.service';
-import { CreateStoryDto } from '../dto/createStory.dto';
+import { UpdateStoryDto } from '../dto';
 
 @ApiTags('Stories')
 @Controller('v1')
-export class CreateStoryController {
+export class UpdateStoryController {
   constructor(private storiesService: StoriesService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('story/create')
+  @Post('story/update')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'POST Stories' })
+  @ApiOperation({ summary: 'UPDATE Stories' })
   async createStories(
-    @Body() storyDto: CreateStoryDto,
+    @Body() storyDto: UpdateStoryDto,
     @Request() req: any,
     @Res() res: any,
   ) {
     try {
-      const result = await this.storiesService.createStories({
-        ...storyDto,
-        author: req?.user?._id,
-      });
+      const result = await this.storiesService.updateStory(storyDto);
 
       console.log('create story', result);
 
@@ -41,7 +38,7 @@ export class CreateStoryController {
       console.log(err.message);
       return res.status(200).json({
         statusCode: 400,
-        message: err.message || 'Cant created story',
+        message: err.message || 'Cant updated story',
       });
     }
   }

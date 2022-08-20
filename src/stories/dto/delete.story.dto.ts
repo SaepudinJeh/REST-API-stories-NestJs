@@ -7,10 +7,3 @@ export class DeleteStoryDto {
   @ApiProperty({ type: String, required: true })
   _id: string;
 }
-
-export class DeleteManyStoryDto {
-  @IsNotEmpty({ message: 'Id Not empty' })
-  @IsString()
-  @ApiProperty({ type: String, required: true })
-  author: string;
-}

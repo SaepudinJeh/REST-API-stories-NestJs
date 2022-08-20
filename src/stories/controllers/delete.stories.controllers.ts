@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/utils';
-import { DeleteManyStoryDto, DeleteStoryDto } from '../dto';
+import { DeleteStoryDto } from '../dto';
 import { StoriesService } from '../services';
 
 @ApiTags('Stories')

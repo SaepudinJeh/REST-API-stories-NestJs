@@ -1,7 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateStoryDto {
+export class UpdateStoryDto {
+  @IsNotEmpty({ message: '_id cannot be empty' })
+  @ApiProperty({ type: String })
+  _id: string;
+
   @IsNotEmpty({ message: 'Title cannot be empty' })
   @ApiProperty({ type: String, default: 'Ini bagian title' })
   title: string;
@@ -10,11 +14,11 @@ export class CreateStoryDto {
   desc: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
     default: null,
   })
   image: any;
 
-  @ApiProperty({ type: Date, required: true })
+  @ApiProperty({ type: Date, required: false })
   createdStory: Date;
 }

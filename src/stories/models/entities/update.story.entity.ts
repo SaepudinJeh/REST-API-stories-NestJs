@@ -1,16 +1,15 @@
 import {
   IsDate,
-  IsMongoId,
   IsNotEmpty,
+  IsObject,
   IsOptional,
   IsString,
 } from 'class-validator';
-import mongoose from 'mongoose';
 
-export class CreateStoryEntity {
+export class UpdateStoryEntity {
   @IsNotEmpty()
-  @IsMongoId()
-  author: mongoose.Schema.Types.ObjectId;
+  @IsString()
+  _id: string;
 
   @IsNotEmpty()
   @IsString()
@@ -20,8 +19,9 @@ export class CreateStoryEntity {
   @IsString()
   desc: string;
 
-  @IsOptional()
-  image: any = null;
+  @IsNotEmpty()
+  @IsObject()
+  image: any;
 
   @IsDate()
   @IsOptional()
