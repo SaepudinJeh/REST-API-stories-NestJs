@@ -33,7 +33,8 @@ export class LoginOauthController {
         linked: null,
       });
 
-      return await res.json({
+      return await res.status(200).json({
+        statusCode: 200,
         user: {
           _id: dataUser?._id,
           username: dataUser?.username,
