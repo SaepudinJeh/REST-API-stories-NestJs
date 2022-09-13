@@ -32,6 +32,6 @@ export class AuthService {
   }
 
   async findUser(email: string): Promise<any> {
-    return await this.userService.findUser(email);
+    return await this.userService.findUser({ email });
   }
 }
