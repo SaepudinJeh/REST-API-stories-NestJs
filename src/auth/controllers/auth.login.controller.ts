@@ -26,6 +26,8 @@ export class AuthLoginController {
 
       const user = await this.authService.findUser(email);
 
+      console.log('find user', user);
+
       if (!user) {
         return response.status(401).json({
           message: 'Unregistered Email!',
